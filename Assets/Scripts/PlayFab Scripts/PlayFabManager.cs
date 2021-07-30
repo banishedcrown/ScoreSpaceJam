@@ -41,9 +41,27 @@ public class PlayFabManager : MonoBehaviour
             {
                 new StatisticUpdate
                 {
-                    StatisticName = "MaximumMass"
+                    StatisticName = "MaximumMass",
+                    Value = (int) (MaxMass * 100),
+                },
+                new StatisticUpdate
+                {
+                    StatisticName = "Time Survived",
+                    Value = (int) (TimeSurvived * 100),
+                },
+                new StatisticUpdate
+                {
+                    StatisticName = "Totoal Mass Consumed",
+                    Value = (int) (MaxMass * 100),
                 }
             }
         };
+        PlayFabClientAPI.UpdatePlayerStatistics(request, OnLeaderBoardUpdate, OnError);
+    }
+
+
+    void OnLeaderBoardUpdate(UpdatePlayerStatisticsResult result)
+    {
+        Debug.Log("Leaderboard Updated Succesfully");
     }
 }
