@@ -6,7 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     bool isPlayer = false;
     Rigidbody2D rb;
-    Camera cam; 
+    Camera cam;
+    GameManager gm;
 
     public float maxSpeed = 5f;
     public float maxForceMultiplier = 0.25f;
@@ -20,6 +21,8 @@ public class PlayerController : MonoBehaviour
         {
             isPlayer = true;
         }
+
+        gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
