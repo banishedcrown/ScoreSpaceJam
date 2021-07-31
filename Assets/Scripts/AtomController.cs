@@ -13,6 +13,7 @@ public class AtomController : MonoBehaviour
 
     public float maxGravDist = 4.0f;
     public float maxGravity = 35.0f;
+    public float maxSpeed = 5f;
 
     public int electronCount = 1;
     public int neutronCount = 0;
@@ -22,9 +23,9 @@ public class AtomController : MonoBehaviour
     public GameObject NeutronPrefab;
     public GameObject ProtonPrefab;
 
-    Transform[] electrons;
-    Transform[] protons;
-    Transform[] neutrons;
+    List<Transform> electrons;
+    List<Transform> protons;
+    List<Transform> neutrons;
 
     // Start is called before the first frame update
     void Start()
@@ -32,8 +33,6 @@ public class AtomController : MonoBehaviour
         GenerateElectrons();
         GenerateParticle(ProtonPrefab, protonCount);
         GenerateParticle(NeutronPrefab, neutronCount);
-
-
         parentTransform = transform.parent;
 
     }
@@ -48,6 +47,7 @@ public class AtomController : MonoBehaviour
             planet.transform.position = transform.position + planet.transform.localPosition;
             float dist = Vector3.Distance(transform.position, planet.transform.position);
             Vector3 v = transform.position - planet.transform.position;
+
             if (dist <= maxGravDist)
             {
                 rigidbody2D.AddForce(v.normalized * (1.0f - dist / maxGravDist) * maxGravity);
@@ -55,7 +55,7 @@ public class AtomController : MonoBehaviour
             }
             else
             {
-                rigidbody2D.velocity = v.normalized * 4f;
+                rigidbody2D.velocity = v.normalized * ( dist / maxGravDist) * maxGravity;
             }
         }
     }
