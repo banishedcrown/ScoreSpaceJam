@@ -8,13 +8,18 @@ public class AtomController : MonoBehaviour
     public float[] ElectronVelocityRange = new float[2];
     public float[] ProtonNeutronVelocityRange = new float[2];
 
-    Rigidbody2D rb;
-    Transform parentTransform;
+    public Rigidbody2D rb { get; private set; }
+    public Transform parentTransform;
 
-    public float maxNucleusDistance = 2.0f;
-    public float maxElectronDistance = 4.0f;
+    public float currentNucleusDistance = 2.0f;
+    public float currentElectronDistance = 4.0f;
     public float maxGravity = 35.0f;
     public float maxSpeed = 5f;
+
+    public float NucleusDistanceMul = 0.5f;
+    public float ElectronDistanceMul = 1.0f;
+
+    public float currentMass = 1f;
 
     public int electronCount = 1;
     public int neutronCount = 0;
@@ -29,7 +34,7 @@ public class AtomController : MonoBehaviour
     List<Transform> neutrons;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         electrons = new List<Transform>();
         protons = new List<Transform>();
@@ -41,14 +46,28 @@ public class AtomController : MonoBehaviour
         parentTransform = transform.parent;
 
         rb = transform.parent.GetComponent<Rigidbody2D>();
+
+        UpdateMass();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        SimulateElectrons();
-        SimulateNeutrons();
-        SimulateProtons();
+        //SimulateElectrons();
+        //SimulateNeutrons();
+        //SimulateProtons();
+        float mass = Mathf.Log(currentMass);
+        currentNucleusDistance = mass * NucleusDistanceMul;
+        currentElectronDistance = mass * ElectronDistanceMul;
+    }
+
+    void UpdateMass()
+    {
+        currentMass = 0f;
+        foreach(Transform t in transform)
+        {
+            currentMass += t.gameObject.GetComponent<Rigidbody2D>().mass;
+        }
     }
 
     void GenerateProtons()
@@ -61,14 +80,14 @@ public class AtomController : MonoBehaviour
         }
         for (int c = 0; c < protonCount; c++)
         {
-            Vector2 pos = Random.insideUnitCircle;
+            Vector2 pos = Random.insideUnitCircle * currentNucleusDistance;
             
             GameObject planet = GameObject.Instantiate(ProtonPrefab, transform);
             planet.transform.localPosition = pos;
-            Rigidbody2D rigidbody2D = planet.GetComponent<Rigidbody2D>();
+            /*Rigidbody2D rigidbody2D = planet.GetComponent<Rigidbody2D>();
             float x = Random.Range(ProtonNeutronVelocityRange[0], ProtonNeutronVelocityRange[1]);
             float y = Random.Range(ProtonNeutronVelocityRange[0], ProtonNeutronVelocityRange[1]);
-            rigidbody2D.AddRelativeForce(new Vector2(x, y));
+            rigidbody2D.AddRelativeForce(new Vector2(x, y));*/
 
             protons.Add(planet.transform);
         }
@@ -100,27 +119,30 @@ public class AtomController : MonoBehaviour
     void GenerateElectrons()
     {
         Transform NewPosition = transform;
-        Vector2 pos = new Vector2(0.5f, 0);
+        Vector2 pos = Random.onUnitSphere;
         float velMultiplier = 1f;
 
         int state = 1;
 
         for (int c = 0; c < electronCount; c++)
         {
+            pos = Random.onUnitSphere;
+            pos.x += 0.5f * state;
+
             if (c % (2 << state) == 0)
             {
-                pos.x += 0.5f;
                 velMultiplier *= -1f;
+                state++;
             }
 
             GameObject planet = GameObject.Instantiate(ElectronPrefab, transform);
             Rigidbody2D rigidbody2D = planet.GetComponent<Rigidbody2D>();
-            rigidbody2D.isKinematic = true;
+           
             planet.transform.localPosition = pos;
-            rigidbody2D.isKinematic = false;
-            rigidbody2D.velocity =  new Vector2(0, velMultiplier * 2);
+            
+            //rigidbody2D.velocity =  new Vector2(0, velMultiplier * 2);
 
-            Debug.Log("new Pos: " + planet.transform.position + " and new velocity" + rigidbody2D.velocity);
+            //Debug.Log("new Pos: " + planet.transform.position + " and new velocity" + rigidbody2D.velocity);
             electrons.Add(planet.transform);
         }
     }
@@ -137,17 +159,18 @@ public class AtomController : MonoBehaviour
             float dist = Vector2.Distance(transform.position, planet.transform.position);
             Vector2 v = transform.position - planet.transform.position;
 
-            if (dist <= maxElectronDistance)
+            if (dist <= currentElectronDistance)
             {
                 rigidbody2D.drag = 0.01f;
-                rigidbody2D.AddForce(v.normalized * (1.0f - dist / maxElectronDistance) * maxGravity * rigidbody2D.mass);
+                rigidbody2D.AddForce(v.normalized * (1.0f - dist / currentElectronDistance) * maxGravity * rigidbody2D.mass);
                 //Debug.Log("maths: " + rigidbody2D.velocity);
             }
             else
             {
-                rigidbody2D.AddForce(rb.velocity + (v.normalized * 3f));
-                rigidbody2D.drag = dist;
+                rigidbody2D.AddForce(rb.velocity + (v.normalized * maxGravity));
+                
             }
+            rigidbody2D.drag = 1/dist;
         }
     }void SimulateProtons()
     {
@@ -159,10 +182,10 @@ public class AtomController : MonoBehaviour
             float dist = Vector2.Distance(transform.position, planet.transform.position);
             Vector2 v = transform.position - planet.transform.position;
 
-            if (dist <= maxNucleusDistance)
+            if (dist <= currentNucleusDistance)
             {
                 rigidbody2D.drag = 0.01f;
-                rigidbody2D.AddForce(v.normalized * (1.0f - dist / maxNucleusDistance) * 2 * maxGravity * rigidbody2D.mass);
+                rigidbody2D.AddForce(v.normalized * (1.0f - dist / currentNucleusDistance) * 2 * maxGravity * rigidbody2D.mass);
                 //Debug.Log("maths: " + rigidbody2D.velocity);
             }
             else
@@ -181,10 +204,10 @@ public class AtomController : MonoBehaviour
             float dist = Vector2.Distance(transform.position, planet.transform.position);
             Vector2 v = transform.position - planet.transform.position;
 
-            if (dist <= maxNucleusDistance)
+            if (dist <= currentNucleusDistance)
             {
                 rigidbody2D.drag = 0.01f;
-                rigidbody2D.AddForce(v.normalized * (1.0f - dist / maxNucleusDistance) * 2 * maxGravity * rigidbody2D.mass);
+                rigidbody2D.AddForce(v.normalized * (1.0f - dist / currentNucleusDistance) * 2 * maxGravity * rigidbody2D.mass);
                 //Debug.Log("maths: " + rigidbody2D.velocity);
             }
             else
@@ -192,6 +215,33 @@ public class AtomController : MonoBehaviour
                 rigidbody2D.velocity = rb.velocity + (v.normalized * 2f);
                 rigidbody2D.drag = dist;
             }
+        }
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        Rigidbody2D enemyrb = collision.gameObject.GetComponent<Rigidbody2D>();
+
+        if (enemyrb.mass > rb.mass)
+        {
+            TransferMyParticlesTo(collision.gameObject);
+        }
+        else
+        {
+            TransferTheirParticlesToMe(collision.gameObject);
+        }
+    }
+
+    private void TransferMyParticlesTo(GameObject target)
+    {
+
+    }
+
+    private void TransferTheirParticlesToMe(GameObject target)
+    {
+        foreach (Transform t in target.transform)
+        {
+            t.parent = transform;
         }
     }
 }

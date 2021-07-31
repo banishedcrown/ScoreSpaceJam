@@ -6,15 +6,17 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     PlayFabManager playFab;
+    
     Canvas Canvas;
-    Camera PlayerCamera;
+    public Camera PlayerCamera;
 
     double currentMass;
     double maximumMass;
 
     float timeStarted;
 
-    bool inGame = false;
+    public GameObject player;
+    public bool inGame = false;
 
     void Awake()
     {
@@ -31,9 +33,16 @@ public class GameManager : MonoBehaviour
 
         Canvas = GetComponentInChildren<Canvas>();
         PlayerCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    
+    private void OnGUI()
+    {
+        TMPro.TMP_Text score = Canvas.transform.Find("MassValue").GetComponent<TMPro.TMP_Text>();
+        score.text = currentMass + " U";
+    }
+
+
 
     public void NewGame()
     {
@@ -43,16 +52,26 @@ public class GameManager : MonoBehaviour
         currentMass = 1f;
         maximumMass = 1f;
         timeStarted = Time.time;
+        inGame = true;
     }
 
     
     public void PauseGame(bool pause)
     {
         Time.timeScale = pause ? 0f : 1f;
+        inGame = false;
     }
 
     public void GameOver()
     {
+        inGame = false;
+        playFab.SendAllScores(maximumMass, Time.time - timeStarted);
+        
+    }
 
+    public void AddMass(float mass)
+    {
+        currentMass += mass;
+        if (currentMass > maximumMass) maximumMass = currentMass;
     }
 }
