@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     PlayFabManager playFab;
+    Canvas Canvas;
+    Camera PlayerCamera;
 
     double currentMass;
     double maximumMass;
@@ -25,16 +27,31 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playFab = GetComponent<PlayFabManager>();   
+        playFab = GetComponent<PlayFabManager>();
+
+        Canvas = GetComponentInChildren<Canvas>();
+        PlayerCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
     
-    public static void NewGame()
+
+    public void NewGame()
     {
         SceneManager.LoadScene("Arena");
+        Start();
+        PlayerCamera.orthographicSize = 5f;
+        currentMass = 1f;
+        maximumMass = 1f;
+        timeStarted = Time.time;
     }
 
-    public static void GameOver()
+    
+    public void PauseGame(bool pause)
+    {
+        Time.timeScale = pause ? 0f : 1f;
+    }
+
+    public void GameOver()
     {
 
     }

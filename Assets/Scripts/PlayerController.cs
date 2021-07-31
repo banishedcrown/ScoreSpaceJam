@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (isPlayer) {
+
             if (Input.GetMouseButton(0))
             {
                 Vector2 mousePos = Input.mousePosition;
@@ -41,5 +42,10 @@ public class PlayerController : MonoBehaviour
 
             
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("collision! : " + collision.gameObject.name);
     }
 }
