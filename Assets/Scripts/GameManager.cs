@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
     private void OnGUI()
     {
         TMPro.TMP_Text score = Canvas.transform.Find("MassValue").GetComponent<TMPro.TMP_Text>();
-        score.text = currentMass + " U";
+        score.text = currentMass.ToString("F3") + " U";
     }
 
 

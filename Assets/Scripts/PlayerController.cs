@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     Camera cam;
     GameManager gm;
     GameObject atom;
+
+    SpawnManager spawnManager;
     public AtomController atomController { get; private set; }
 
     public float maxSpeed = 5f;
@@ -28,6 +30,8 @@ public class PlayerController : MonoBehaviour
 
         atom = transform.Find("AtomRB").gameObject;
         atomController = atom.GetComponent<AtomController>();
+
+        spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
     }
 
     void Start()
@@ -54,10 +58,12 @@ public class PlayerController : MonoBehaviour
             {
                 Vector2 mousePos = Input.mousePosition;
                 Vector2 pos =  cam.ScreenToWorldPoint(mousePos) - transform.position;
-
+                float angle = Vector2.Angle(rb.velocity, pos);
+                
+                rb.mass = atomController.currentMass;
                 rb.velocity = rb.velocity.normalized * maxSpeed * mass;
                 rb.AddForce(pos * maxForceMultiplier * transform.localScale.x, ForceMode2D.Impulse);
-                
+                rb.AddTorque(angle);
             }
 
             cam.orthographicSize = (mass * camGrowthRate);
@@ -84,6 +90,20 @@ public class PlayerController : MonoBehaviour
         {
             
             atom.SendMessage("OnHitAnotherAtom", collision);
+        }
+    }
+
+
+    public void AtomIsEmpty()
+    {
+        if (isPlayer)
+        {
+            gm.GameOver();
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            spawnManager.RemoveAtom(this.gameObject);
         }
     }
 }

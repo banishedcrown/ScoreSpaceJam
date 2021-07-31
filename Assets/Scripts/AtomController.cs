@@ -60,6 +60,15 @@ public class AtomController : MonoBehaviour
         float mass = Mathf.Log(currentMass);
         currentNucleusDistance = Mathf.Max(mass * NucleusDistanceMul, 0.05f);
         currentElectronDistance = Mathf.Max(mass * ElectronDistanceMul, 0.15f);
+
+        electronCount = electrons.Count;
+        protonCount = protons.Count;
+        neutronCount = neutrons.Count;
+
+        if(currentMass == 0f)
+        {
+            parentTransform.SendMessage("AtomIsEmpty");
+        }
     }
 
     public void UpdateMass()
