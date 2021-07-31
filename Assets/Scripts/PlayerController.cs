@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     Camera cam;
     GameManager gm;
     GameObject atom;
-    AtomController atomController;
+    public AtomController atomController { get; private set; }
 
     public float maxSpeed = 5f;
     public float maxForceMultiplier = 0.25f;
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         float mass = Mathf.Log(atomController.currentMass);
-
+        if (mass < 0) mass = 0.001f;
         if (isPlayer) {
 
             if (Input.GetMouseButton(0))
@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
             cam.orthographicSize *= Input.GetMouseButton(1) ? zoomMultiplier : 1f;
             if (gm.currentMass != atomController.currentMass)
             {
-                gm.AddMass((float)(gm.currentMass - atomController.currentMass));
+                gm.AddMass((float)(atomController.currentMass - gm.currentMass));
             }
         }
         

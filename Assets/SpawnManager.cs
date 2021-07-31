@@ -16,9 +16,14 @@ public class SpawnManager : MonoBehaviour
     float negYBound = -50f;
     float posYBound = +50f;
 
+    GameObject player;
+    PlayerController playerController;
+
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerController = player.GetComponent<PlayerController>();
         atoms = new List<GameObject>();
         GenerateStarterAtoms();
     }
@@ -26,7 +31,10 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(atoms.Count < maxAtoms)
+        {
+            SpawnNewAtom();
+        }
     }
 
     void GenerateStarterAtoms()
@@ -45,7 +53,20 @@ public class SpawnManager : MonoBehaviour
 
             ac.enabled = true;
 
+            Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
+            rb.velocity = Random.insideUnitCircle * Random.Range(0.5f, 1f);
+
             atoms.Add(obj);
         }
+    }
+
+    void SpawnNewAtom()
+    {
+
+    }
+
+    public void RemoveAtom(GameObject target)
+    {
+        
     }
 }

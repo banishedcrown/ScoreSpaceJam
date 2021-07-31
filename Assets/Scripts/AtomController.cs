@@ -58,8 +58,8 @@ public class AtomController : MonoBehaviour
         //SimulateNeutrons();
         //SimulateProtons();
         float mass = Mathf.Log(currentMass);
-        currentNucleusDistance = mass * NucleusDistanceMul;
-        currentElectronDistance = mass * ElectronDistanceMul;
+        currentNucleusDistance = Mathf.Max(mass * NucleusDistanceMul, 0.05f);
+        currentElectronDistance = Mathf.Max(mass * ElectronDistanceMul, 0.15f);
     }
 
     public void UpdateMass()
@@ -241,6 +241,7 @@ public class AtomController : MonoBehaviour
         foreach (Transform t in targetController.myTransform)
         {
             t.parent = target.transform;
+            t.localScale = Vector3.one;
         }
 
         targetController.electrons.AddRange(this.electrons);
@@ -258,6 +259,7 @@ public class AtomController : MonoBehaviour
         foreach (Transform t in targetController.myTransform)
         {
             t.parent = transform;
+            t.localScale = Vector3.one * 0.25f;
         }
 
         this.electrons.AddRange(targetController.electrons);
