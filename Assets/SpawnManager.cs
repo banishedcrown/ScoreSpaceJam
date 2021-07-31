@@ -33,7 +33,7 @@ public class SpawnManager : MonoBehaviour
     {
         for (int c = 0; c < maxAtoms; c++)
         {
-            Vector2 pos = Random.insideUnitCircle;
+            Vector2 pos = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
             float dist = Random.Range(0.0f, maxDistanceFromOrigin);
 
             GameObject obj = GameObject.Instantiate(atomPrefab, pos * dist, Quaternion.identity);

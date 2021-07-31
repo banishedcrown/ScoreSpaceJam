@@ -18,15 +18,20 @@ public class PlayerController : MonoBehaviour
     public float maxForceMultiplier = 0.25f;
 
     public float camGrowthRate = 1.2f;
+    public float zoomMultiplier = 2f;
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         cam = GetComponentInChildren<Camera>();
 
         atom = transform.Find("AtomRB").gameObject;
         atomController = atom.GetComponent<AtomController>();
+    }
+
+    void Start()
+    {
 
         if (gameObject.CompareTag("Player"))
         {
@@ -55,8 +60,12 @@ public class PlayerController : MonoBehaviour
                 
             }
 
-            cam.orthographicSize = mass * camGrowthRate;
-
+            cam.orthographicSize = (mass * camGrowthRate);
+            cam.orthographicSize *= Input.GetMouseButton(1) ? zoomMultiplier : 1f;
+            if (gm.currentMass != atomController.currentMass)
+            {
+                gm.AddMass((float)(gm.currentMass - atomController.currentMass));
+            }
         }
         
         transform.localScale = new Vector3(0.2f * mass, 0.2f * mass, 1);
@@ -64,14 +73,17 @@ public class PlayerController : MonoBehaviour
 
         //nucleusvisual.transform.localScale = atomController.currentNucleusDistance * transform.localScale;
         //electronVisual.transform.localScale = new Vector3(atomController.currentElectronDistance / (0.2f * mass), atomController.currentElectronDistance / (0.2f * mass), 1);
+
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Atom"))
+        Debug.Log("collision! : " + collision.gameObject.name + " with: " + gameObject.name);
+        if (collision.gameObject.CompareTag("Atom") && atom != null)
         {
-            Debug.Log("collision! : " + collision.gameObject.name);
-            atom.SendMessage("OnCollisionEnter2D", collision);
+            
+            atom.SendMessage("OnHitAnotherAtom", collision);
         }
     }
 }
