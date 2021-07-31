@@ -15,7 +15,7 @@ TagManager:
   - 
   - 
   - Atoms
-  - 
+  - Electrons
   - 
   - 
   - 
@@ -39,6 +39,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 4029676293
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
