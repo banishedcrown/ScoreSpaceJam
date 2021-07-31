@@ -979,6 +979,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2425177718928895421, guid: 1cc4f18a6d2a4394d8f04cd9efabbc7a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -99
+      objectReference: {fileID: 0}
+    - target: {fileID: 2425177718928895421, guid: 1cc4f18a6d2a4394d8f04cd9efabbc7a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -36
+      objectReference: {fileID: 0}
+    - target: {fileID: 4697335358293091047, guid: 1cc4f18a6d2a4394d8f04cd9efabbc7a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201964284271619344, guid: 1cc4f18a6d2a4394d8f04cd9efabbc7a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 551
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201964284271619344, guid: 1cc4f18a6d2a4394d8f04cd9efabbc7a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 368.35
+      objectReference: {fileID: 0}
     - target: {fileID: 9201964284927053188, guid: 1cc4f18a6d2a4394d8f04cd9efabbc7a, type: 3}
       propertyPath: m_Name
       value: GameManager
