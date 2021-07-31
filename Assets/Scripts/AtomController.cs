@@ -9,7 +9,8 @@ public class AtomController : MonoBehaviour
     public float[] ProtonNeutronVelocityRange = new float[2];
 
     public Rigidbody2D rb { get; private set; }
-    public Transform parentTransform;
+    public Transform parentTransform { get; private set; }
+    public Transform myTransform { get; private set; }
 
     public float currentNucleusDistance = 2.0f;
     public float currentElectronDistance = 4.0f;
@@ -44,7 +45,7 @@ public class AtomController : MonoBehaviour
         GenerateProtons();
         GenerateNeutrons();
         parentTransform = transform.parent;
-
+        myTransform = transform;
         rb = transform.parent.GetComponent<Rigidbody2D>();
 
         UpdateMass();
@@ -61,7 +62,7 @@ public class AtomController : MonoBehaviour
         currentElectronDistance = mass * ElectronDistanceMul;
     }
 
-    void UpdateMass()
+    public void UpdateMass()
     {
         currentMass = 0f;
         foreach(Transform t in transform)
@@ -218,30 +219,53 @@ public class AtomController : MonoBehaviour
         }
     }
 
-    public void OnCollisionEnter2D(Collision2D collision)
+    public void OnHitAnotherAtom(Collision2D collision)
     {
+        AtomController targetController = collision.gameObject.GetComponentInChildren<AtomController>();
         Rigidbody2D enemyrb = collision.gameObject.GetComponent<Rigidbody2D>();
 
         if (enemyrb.mass > rb.mass)
         {
-            TransferMyParticlesTo(collision.gameObject);
+            TransferMyParticlesTo(collision.gameObject, targetController);
         }
         else
         {
-            TransferTheirParticlesToMe(collision.gameObject);
+            TransferTheirParticlesToMe(collision.gameObject, targetController);
         }
+        UpdateMass();
+        targetController.UpdateMass();
     }
 
-    private void TransferMyParticlesTo(GameObject target)
+    private void TransferMyParticlesTo(GameObject target, AtomController targetController)
     {
+        foreach (Transform t in targetController.myTransform)
+        {
+            t.parent = target.transform;
+        }
+
+        targetController.electrons.AddRange(this.electrons);
+        targetController.protons.AddRange(this.neutrons);
+        targetController.neutrons.AddRange(this.protons);
+
+        this.electrons.Clear();
+        this.protons.Clear();
+        this.neutrons.Clear();
 
     }
 
-    private void TransferTheirParticlesToMe(GameObject target)
+    private void TransferTheirParticlesToMe(GameObject target, AtomController targetController)
     {
-        foreach (Transform t in target.transform)
+        foreach (Transform t in targetController.myTransform)
         {
             t.parent = transform;
         }
+
+        this.electrons.AddRange(targetController.electrons);
+        this.protons.AddRange(targetController.neutrons);
+        this.neutrons.AddRange(targetController.protons);
+
+        targetController.electrons.Clear();
+        targetController.protons.Clear();
+        targetController.neutrons.Clear();
     }
 }

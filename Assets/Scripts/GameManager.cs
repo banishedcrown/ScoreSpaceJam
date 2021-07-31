@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     Canvas Canvas;
     public Camera PlayerCamera;
 
-    double currentMass;
+    public double currentMass { get; private set; }
     double maximumMass;
 
     float timeStarted;
