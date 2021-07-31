@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     {
         playFab = GetComponent<PlayFabManager>();
 
-        Canvas = GetComponentInChildren<Canvas>();
+        Canvas = GameObject.Find("UI").GetComponent<Canvas>();
         PlayerCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player");
     }
