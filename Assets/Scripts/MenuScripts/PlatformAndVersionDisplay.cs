@@ -9,23 +9,45 @@ public class PlatformAndVersionDisplay : MonoBehaviour
     //Version and Platform take the cooresponding details to display within themselves.
     public GameObject VersionField;
     public GameObject PlatformField;
+    public GameObject VersionandPlaformField;
 
     //Set to True if you want enabling the object this is attached to, to push the platform and version to the Gameobjects.
-    public bool ShowVersionandPlatformWhenEnable;
+    public bool ShowVersionWhenEnable;
+    public bool ShowPlatformWhenEnable;
+    public bool ShowVersionandPlatformOnOneWhenEnable;
 
     //Debug Tools
     public bool OverrideActivated;
     public string VersionOverride;
     public string PlatformOverride;
 
+    //Data
+    string VersionObtained = "";
+    string PlatformObtained = "";
+
     //public GameObject Version { get => version; set => version = value; }
 
     void OnEnable()
     {
-        if (ShowVersionandPlatformWhenEnable == true)
+        FindVersion();
+        FindPlatform();
+
+        if (ShowVersionWhenEnable == true)
         {
-            ShowPlatform();
-            ShowVersion();
+            //Show both version on one object.
+            VersionField.GetComponent<TMP_Text>().text = VersionObtained;
+        }
+
+        if (ShowPlatformWhenEnable == true)
+        {
+            //Show both platform on one object.
+            PlatformField.GetComponent<TMP_Text>().text = PlatformObtained;
+        }
+
+        if (ShowVersionandPlatformOnOneWhenEnable == true)
+        {
+            //Show both version and platform on one object.
+            VersionandPlaformField.GetComponent<TMP_Text>().text = PlatformObtained + " " + VersionObtained;
         }
 
         //Otherwise do nothing.
@@ -33,54 +55,54 @@ public class PlatformAndVersionDisplay : MonoBehaviour
     }
 
 
-    public void ShowPlatform()
+    public void FindPlatform()
     {
         //Debug.Log(Application.platform);
 
         //Check the runtime platform, output the platform into the platform gameobject
         if (Application.platform == RuntimePlatform.WindowsPlayer)
         {
-            PlatformField.GetComponent<TMP_Text>().text = "Windows";
+            PlatformObtained = "Windows";
         }
         else if (Application.platform == RuntimePlatform.WebGLPlayer)
         {
-            PlatformField.GetComponent<TMP_Text>().text = "Web";
+            PlatformObtained = "Web";
         }
         else if (Application.platform == RuntimePlatform.OSXPlayer)
         {
-            PlatformField.GetComponent<TMP_Text>().text = "Mac";
+            PlatformObtained = "Mac";
         }
         else if (Application.platform == RuntimePlatform.LinuxPlayer)
         {
-            PlatformField.GetComponent<TMP_Text>().text = "Linux";
+            PlatformObtained = "Linux";
         }
         else
         {
             //If all checks fail just push the application platform unformatting and set to the windows version of the main menu.
-            PlatformField.GetComponent<TMP_Text>().text = Application.platform.ToString();
+            PlatformObtained = Application.platform.ToString();
 
         }
 
         //Override Stuff
         if (OverrideActivated == true)
         {
-            PlatformField.GetComponent<TMP_Text>().text = PlatformOverride;
+            PlatformObtained = PlatformOverride;
         }
     }
 
-    public void ShowVersion()
+    public void FindVersion()
     {
         //Debug.Log(Application.version);
 
         //Set the application version text to the current version.
-        VersionField.GetComponent<TMP_Text>().text = "V" + Application.version;
+        VersionObtained = "V" + Application.version;
 
         //Override Stuff
         if (OverrideActivated == true)
         {
-            VersionField.GetComponent<TMP_Text>().text = VersionOverride;
+            VersionObtained = VersionOverride;
         }
-    } 
+    }
 
 }
 
