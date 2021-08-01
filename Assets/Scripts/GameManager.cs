@@ -13,9 +13,9 @@ public class GameManager : MonoBehaviour
     public double currentMass { get; private set; }
     double maximumMass;
 
-    
-    public double currentHealth = 0f;
-    public double maxHealth = 100f;
+
+    public double currentHealth { get; private set; } = 0f;
+    public double maxHealth { get; private set; } = 100f;
     public double percentDamagePerSecond = 0.1f;
 
     float timeStarted;
@@ -57,15 +57,6 @@ public class GameManager : MonoBehaviour
                 isDead = true;
                 GameOver();
             }
-        }
-    }
-
-    private void OnGUI()
-    {
-        if (inGame)
-        {
-            TMPro.TMP_Text score = GameObject.Find("MassValue").GetComponent<TMPro.TMP_Text>();
-            score.text = currentMass.ToString("F3") + " U";
         }
     }
 
@@ -115,7 +106,8 @@ public class GameManager : MonoBehaviour
         inGame = false;
         isDead = true;
         playFab.SendAllScores(maximumMass, Time.time - timeStarted);
-        
+
+        GameObject.Find("UI").SendMessage("SetGameOverMenuActive", true);
     }
 
     public void AddMass(float mass)

@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
     bool isPlayer = false;
     Rigidbody2D rb;
+    GameObject camObj;
     Camera cam;
     GameManager gm;
     GameObject atom;
@@ -40,7 +41,8 @@ public class PlayerController : MonoBehaviour
         if (gameObject.CompareTag("Player"))
         {
             isPlayer = true;
-            cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+            camObj = GameObject.FindGameObjectWithTag("MainCamera");
+            cam = camObj.GetComponent<Camera>();
             gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
             gm.AddMass(atomController.currentMass);
         }
@@ -68,10 +70,17 @@ public class PlayerController : MonoBehaviour
 
             cam.orthographicSize = (mass * camGrowthRate);
             cam.orthographicSize *= Input.GetMouseButton(1) ? zoomMultiplier : 1f;
+           
             if (gm.currentMass != atomController.currentMass)
             {
                 gm.AddMass((float)(atomController.currentMass - gm.currentMass));
             }
+
+            if (gm.isDead)
+            {
+                Die(1.5f);
+            }
+
         }
         
         transform.localScale = new Vector3(0.2f * mass, 0.2f * mass, 1);
@@ -80,10 +89,7 @@ public class PlayerController : MonoBehaviour
         //nucleusvisual.transform.localScale = atomController.currentNucleusDistance * transform.localScale;
         //electronVisual.transform.localScale = new Vector3(atomController.currentElectronDistance / (0.2f * mass), atomController.currentElectronDistance / (0.2f * mass), 1);
 
-        if (gm.isDead)
-        {
-
-        }
+        
         
     }
 
@@ -102,12 +108,25 @@ public class PlayerController : MonoBehaviour
     {
         if (isPlayer)
         {
-            gm.GameOver();
-            Destroy(this.gameObject);
+            Die();
         }
         else
         {
+            Die();
             spawnManager.RemoveAtom(this.gameObject);
         }
+    }
+
+    public void Die(float delay = 0f)
+    {
+        if (isPlayer)
+        {
+            gm.GameOver();
+            GameObject g = GameObject.Instantiate(camObj, gm.gameObject.transform);
+            g.transform.position = camObj.transform.position;
+            Destroy(this.gameObject);
+        }
+
+        Destroy(this.gameObject, delay);
     }
 }

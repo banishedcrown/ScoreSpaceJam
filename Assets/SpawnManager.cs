@@ -88,6 +88,6 @@ public class SpawnManager : MonoBehaviour
 
     public void RemoveAtom(GameObject target)
     {
-        
+        atoms.Remove(target);
     }
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GameManager
   - Atom
+  - Health
   layers:
   - Default
   - TransparentFX
