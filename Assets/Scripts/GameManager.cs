@@ -18,7 +18,8 @@ public class GameManager : MonoBehaviour
     public double maxHealth { get; private set; } = 100f;
     public double percentDamagePerSecond = 0.1f;
 
-    float timeStarted;
+    public float timeStarted { get; private set; }
+    public float currentTimeSurvided { get; private set; }
 
     public GameObject player;
     public bool inGame = false;
@@ -57,6 +58,12 @@ public class GameManager : MonoBehaviour
                 isDead = true;
                 GameOver();
             }
+
+            
+        }
+        if (inGame)
+        {
+            currentTimeSurvided = Time.time - timeStarted;
         }
     }
 

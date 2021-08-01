@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
         atomController = atom.GetComponent<AtomController>();
 
         spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
     void Start()
@@ -43,10 +44,10 @@ public class PlayerController : MonoBehaviour
             isPlayer = true;
             camObj = GameObject.FindGameObjectWithTag("MainCamera");
             cam = camObj.GetComponent<Camera>();
-            gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
             gm.AddMass(atomController.currentMass);
+            gm.player = this.gameObject;
         }
-
+        transform.localScale = new Vector3(0.02f * atomController.currentMass, 0.02f * atomController.currentMass, 1);
     }
 
     // Update is called once per frame
@@ -82,8 +83,20 @@ public class PlayerController : MonoBehaviour
             }
 
         }
+        else
+        {
+            float distanceFromPlayer = Vector2.Distance(gm.player.gameObject.transform.position, this.gameObject.transform.position);
+            float distanceLimit = 1000f * Mathf.Log10((float)gm.currentMass);
+            if (distanceFromPlayer > distanceLimit)
+            {
+                Die();
+            }
+
+            rb.mass = atomController.currentMass;
+            //rb.velocity = rb.velocity.normalized * maxSpeed * mass;
+        }
         
-        transform.localScale = new Vector3(0.2f * mass, 0.2f * mass, 1);
+        transform.localScale = new Vector3(0.02f * atomController.currentMass, 0.02f * atomController.currentMass, 1);
         //atom.transform.localScale = new Vector3( mass, mass, 1);
 
         //nucleusvisual.transform.localScale = atomController.currentNucleusDistance * transform.localScale;
@@ -95,7 +108,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("collision! : " + collision.gameObject.name + " with: " + gameObject.name);
+        if (gm.currentTimeSurvided < 3f) return; 
+
         if (collision.gameObject.CompareTag("Atom") && atom != null)
         {
             
@@ -112,8 +126,8 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Die();
             spawnManager.RemoveAtom(this.gameObject);
+            Die();
         }
     }
 
@@ -122,11 +136,13 @@ public class PlayerController : MonoBehaviour
         if (isPlayer)
         {
             gm.GameOver();
-            GameObject g = GameObject.Instantiate(camObj, gm.gameObject.transform);
+            GameObject g = GameObject.Instantiate(camObj, spawnManager.gameObject.transform);
             g.transform.position = camObj.transform.position;
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
         }
-
-        Destroy(this.gameObject, delay);
+        else
+        {
+            Destroy(this.gameObject, delay);
+        }
     }
 }

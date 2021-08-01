@@ -236,7 +236,8 @@ public class AtomController : MonoBehaviour
 
         if (enemyrb.mass > rb.mass)
         {
-            TransferMyParticlesTo(collision.gameObject, targetController);
+            if(collision.gameObject.tag == "Player")
+                TransferMyParticlesTo(collision.gameObject, targetController);
         }
         else
         {

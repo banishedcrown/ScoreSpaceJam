@@ -140,7 +140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2109725990911775502, guid: a93e64a1fa8142548ac0eddc4ea76b70, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.02
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2109725990911775502, guid: a93e64a1fa8142548ac0eddc4ea76b70, type: 3}
       propertyPath: m_LocalPosition.y
@@ -828,9 +828,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atomPrefab: {fileID: 4644621342216872777, guid: 80e42197a3b41ad40b1ec7a10d56cf37, type: 3}
-  maxAtoms: 250
-  maxDistanceFromOrigin: 50
-  maxDistanceFromPlayer: 20
+  maxAtoms: 100
+  maxDistanceFromOrigin: 100
+  maxDistanceFromPlayer: 2
   maxSizeAbovePlayer: 4
 --- !u!4 &2102458439
 Transform:

@@ -494,9 +494,9 @@ MonoBehaviour:
   nucleusvisual: {fileID: 2109725989391838203}
   electronVisual: {fileID: 503026323}
   maxSpeed: 6
-  maxForceMultiplier: 0.4
-  camGrowthRate: 7.5
-  zoomMultiplier: 2.5
+  maxForceMultiplier: 0.5
+  camGrowthRate: 21
+  zoomMultiplier: 3
 --- !u!50 &2109725990911775499
 Rigidbody2D:
   serializedVersion: 4

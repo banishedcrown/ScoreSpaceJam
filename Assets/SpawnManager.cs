@@ -26,13 +26,18 @@ public class SpawnManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
         atoms = new List<GameObject>();
-        GenerateStarterAtoms();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(atoms.Count < maxAtoms)
+        if(atoms.Count == 0)
+        {
+            GenerateStarterAtoms();
+        }
+
+        else if(atoms.Count < maxAtoms)
         {
             SpawnNewAtom();
         }
@@ -43,14 +48,16 @@ public class SpawnManager : MonoBehaviour
         for (int c = 0; c < maxAtoms; c++)
         {
             Vector2 pos = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-            float dist = Random.Range(0.0f, maxDistanceFromOrigin);
-
-            GameObject obj = GameObject.Instantiate(atomPrefab, pos * dist, Quaternion.identity);
+            float dist = Random.Range(0.5f, maxDistanceFromPlayer);
+            GameObject obj = GameObject.Instantiate(atomPrefab, (Vector2)((Vector2)player.transform.position + (pos * dist * (Vector2)playerController.transform.localScale)), Quaternion.identity);
+            //GameObject obj = GameObject.Instantiate(atomPrefab, pos * dist, Quaternion.identity);
             AtomController ac = obj.GetComponentInChildren<AtomController>();
 
             ac.electronCount = 1;
-            ac.protonCount = Random.Range(0,2);
-            ac.neutronCount = Random.Range(0, ac.protonCount + 1);
+            ac.protonCount = 1;
+            ac.neutronCount = Random.Range(0, 2);
+
+            obj.transform.localScale = new Vector3(0.02f * ac.currentMass, 0.02f * ac.currentMass, 1);
 
             ac.enabled = true;
 
@@ -66,8 +73,8 @@ public class SpawnManager : MonoBehaviour
         for (int c = atoms.Count; c < maxAtoms; c++)
         {
             Vector2 pos = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-            //float dist = Random.Range(5.0f, maxDistanceFromPlayer);
-            float dist = Random.Range(0.0f, maxDistanceFromOrigin);
+            float dist = Random.Range(5.0f, maxDistanceFromPlayer);
+            //float dist = Random.Range(0.0f, maxDistanceFromOrigin);
 
             GameObject obj = GameObject.Instantiate(atomPrefab, (Vector2) player.transform.position + ( pos * dist * playerController.atomController.currentMass), Quaternion.identity);
             //GameObject obj = GameObject.Instantiate(atomPrefab, ( pos * dist), Quaternion.identity);
@@ -80,7 +87,7 @@ public class SpawnManager : MonoBehaviour
             ac.enabled = true;
 
             Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
-            rb.velocity = Random.insideUnitCircle * Random.Range(0.5f, 1f);
+            rb.velocity = Random.insideUnitCircle * Random.Range(0.5f, 2f);
 
             atoms.Add(obj);
         }
