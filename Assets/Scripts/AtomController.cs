@@ -65,7 +65,7 @@ public class AtomController : MonoBehaviour
         protonCount = protons.Count;
         neutronCount = neutrons.Count;
 
-        if(currentMass == 0f)
+        if(currentMass <= 0f)
         {
             parentTransform.SendMessage("AtomIsEmpty");
         }
