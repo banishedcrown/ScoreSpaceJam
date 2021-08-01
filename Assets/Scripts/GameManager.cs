@@ -13,6 +13,11 @@ public class GameManager : MonoBehaviour
     public double currentMass { get; private set; }
     double maximumMass;
 
+    
+    double currentHealth = 0f;
+    double maxHealth = 100f;
+    double percentDamagePerSecond = 0.1f;
+
     float timeStarted;
 
     public GameObject player;
@@ -36,6 +41,13 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
+    private void Update()
+    {
+        currentHealth -= maxHealth * percentDamagePerSecond * Time.deltaTime;
+
+        if (currentHealth <= 0) GameOver();
+    }
+
     private void OnGUI()
     {
         TMPro.TMP_Text score = Canvas.transform.Find("MassValue").GetComponent<TMPro.TMP_Text>();
@@ -47,10 +59,15 @@ public class GameManager : MonoBehaviour
     public void NewGame()
     {
         SceneManager.LoadScene("Arena");
+        PauseGame(false);
         Start();
         PlayerCamera.orthographicSize = 5f;
         currentMass = 1f;
         maximumMass = 1f;
+
+        currentHealth = 1f;
+        maxHealth = 1f;
+
         timeStarted = Time.time;
         inGame = true;
     }
@@ -59,12 +76,13 @@ public class GameManager : MonoBehaviour
     public void PauseGame(bool pause)
     {
         Time.timeScale = pause ? 0f : 1f;
-        inGame = false;
+        inGame = pause;
     }
 
     public void GameOver()
     {
         inGame = false;
+        PauseGame(true);
         playFab.SendAllScores(maximumMass, Time.time - timeStarted);
         
     }
@@ -72,6 +90,8 @@ public class GameManager : MonoBehaviour
     public void AddMass(float mass)
     {
         currentMass += mass;
+        currentHealth += mass;
+        maxHealth += mass;
         if (currentMass > maximumMass) maximumMass = currentMass;
     }
 }

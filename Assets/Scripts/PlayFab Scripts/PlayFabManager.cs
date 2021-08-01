@@ -7,6 +7,11 @@ using PlayFab.ClientModels;
 
 public class PlayFabManager : MonoBehaviour
 {
+
+    public List<PlayerLeaderboardEntry> latestMaximumMassLeaderboard;
+    public List<PlayerLeaderboardEntry> latestTimeSurvivedLeaderboard;
+    public List<PlayerLeaderboardEntry> latestTotalMassConsumedLeaderboard;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,7 +56,7 @@ public class PlayFabManager : MonoBehaviour
                 },
                 new StatisticUpdate
                 {
-                    StatisticName = "Totoal Mass Consumed",
+                    StatisticName = "Total Mass Consumed",
                     Value = (int) (MaxMass * 100),
                 }
             }
@@ -63,5 +68,67 @@ public class PlayFabManager : MonoBehaviour
     void OnLeaderBoardUpdate(UpdatePlayerStatisticsResult result)
     {
         Debug.Log("Leaderboard Updated Succesfully");
+    }
+
+
+    public void GetLeaderBoardMaximumMass()
+    {
+        var request = new GetLeaderboardRequest
+        {
+            StatisticName = "MaximumMass",
+            StartPosition = 0,
+            MaxResultsCount = 10
+        };
+        PlayFabClientAPI.GetLeaderboard(request, OnLeaderBoardGetMaximumMass, OnError);
+    }
+    
+    public void GetLeaderBoardTimeSurvived()
+    {
+        var request = new GetLeaderboardRequest
+        {
+            StatisticName = "Time Survived",
+            StartPosition = 0,
+            MaxResultsCount = 10
+        };
+        PlayFabClientAPI.GetLeaderboard(request, OnLeaderBoardGetTimeSurvived, OnError);
+    }
+    
+    public void GetLeaderBoardTotalMassConsumed()
+    {
+        var request = new GetLeaderboardRequest
+        {
+            StatisticName = "Total Mass Consumed",
+            StartPosition = 0,
+            MaxResultsCount = 10
+        };
+        PlayFabClientAPI.GetLeaderboard(request, OnLeaderBoardGetTotalMassConsumed, OnError);
+    }
+
+    public void OnLeaderBoardGetMaximumMass( GetLeaderboardResult result)
+    {
+        latestMaximumMassLeaderboard.Clear();
+        foreach(PlayerLeaderboardEntry item in result.Leaderboard)
+        {
+            Debug.Log(item.Position + " " + item.PlayFabId + " " + item.StatValue);
+            latestMaximumMassLeaderboard.Add(item);
+        }
+    }
+    public void OnLeaderBoardGetTimeSurvived( GetLeaderboardResult result)
+    {
+        latestTimeSurvivedLeaderboard.Clear();
+        foreach(PlayerLeaderboardEntry item in result.Leaderboard)
+        {
+            Debug.Log(item.Position + " " + item.PlayFabId + " " + item.StatValue);
+            latestTimeSurvivedLeaderboard.Add(item);
+        }
+    }
+    public void OnLeaderBoardGetTotalMassConsumed( GetLeaderboardResult result)
+    {
+        latestTotalMassConsumedLeaderboard.Clear();
+        foreach(PlayerLeaderboardEntry item in result.Leaderboard)
+        {
+            Debug.Log(item.Position + " " + item.PlayFabId + " " + item.StatValue);
+            latestTotalMassConsumedLeaderboard.Add(item);
+        }
     }
 }
