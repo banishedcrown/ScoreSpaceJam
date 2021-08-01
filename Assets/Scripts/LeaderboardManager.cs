@@ -42,8 +42,8 @@ public class LeaderboardManager : MonoBehaviour
             {
                 foreach (TMP_Text c in content)
                 {
-                    c.color = Color.red;
-                    c.fontStyle = FontStyles.Underline;
+                    c.color = Color.black;
+                    c.fontStyle = FontStyles.Underline | FontStyles.Bold;
                 }
             }
         }

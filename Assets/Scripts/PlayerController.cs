@@ -80,6 +80,10 @@ public class PlayerController : MonoBehaviour
         //nucleusvisual.transform.localScale = atomController.currentNucleusDistance * transform.localScale;
         //electronVisual.transform.localScale = new Vector3(atomController.currentElectronDistance / (0.2f * mass), atomController.currentElectronDistance / (0.2f * mass), 1);
 
+        if (gm.isDead)
+        {
+
+        }
         
     }
 

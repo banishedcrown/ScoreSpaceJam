@@ -14,14 +14,15 @@ public class GameManager : MonoBehaviour
     double maximumMass;
 
     
-    double currentHealth = 0f;
-    double maxHealth = 100f;
-    double percentDamagePerSecond = 0.1f;
+    public double currentHealth = 0f;
+    public double maxHealth = 100f;
+    public double percentDamagePerSecond = 0.1f;
 
     float timeStarted;
 
     public GameObject player;
     public bool inGame = false;
+    public bool isDead = false;
 
     void OnEnable()
     {
@@ -51,7 +52,11 @@ public class GameManager : MonoBehaviour
         {
             currentHealth -= maxHealth * percentDamagePerSecond * Time.deltaTime;
 
-            if (currentHealth <= 0) GameOver();
+            if (currentHealth <= 0)
+            {
+                isDead = true;
+                GameOver();
+            }
         }
     }
 
@@ -102,13 +107,13 @@ public class GameManager : MonoBehaviour
     public void PauseGame(bool pause)
     {
         Time.timeScale = pause ? 0f : 1f;
-        inGame = pause;
+        inGame = !pause;
     }
 
     public void GameOver()
     {
         inGame = false;
-        PauseGame(true);
+        isDead = true;
         playFab.SendAllScores(maximumMass, Time.time - timeStarted);
         
     }
