@@ -74,7 +74,7 @@ public class SpawnManager : MonoBehaviour
             AtomController ac = obj.GetComponentInChildren<AtomController>();
 
             ac.electronCount = 1;
-            ac.protonCount = Random.Range(0, playerController.atomController.protonCount + maxSizeAbovePlayer);
+            ac.protonCount = Random.Range(1, playerController.atomController.protonCount + maxSizeAbovePlayer);
             ac.neutronCount = Random.Range(0, ac.protonCount);
 
             ac.enabled = true;

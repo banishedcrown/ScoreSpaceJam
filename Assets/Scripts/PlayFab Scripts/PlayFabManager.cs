@@ -7,18 +7,21 @@ using PlayFab.ClientModels;
 
 public class PlayFabManager : MonoBehaviour
 {
-
-    public List<PlayerLeaderboardEntry> latestMaximumMassLeaderboard;
-    public List<PlayerLeaderboardEntry> latestTimeSurvivedLeaderboard;
-    public List<PlayerLeaderboardEntry> latestTotalMassConsumedLeaderboard;
+    public string myID { get; private set; }
+    public List<PlayerLeaderboardEntry> latestMaximumMassLeaderboard { get; private set; }
+    public List<PlayerLeaderboardEntry> latestTimeSurvivedLeaderboard { get; private set; }
+    public List<PlayerLeaderboardEntry> latestTotalMassConsumedLeaderboard { get; private set; }
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        Login();
+        //Login();
+        latestMaximumMassLeaderboard = new List<PlayerLeaderboardEntry>();
+        latestTimeSurvivedLeaderboard = new List<PlayerLeaderboardEntry>();
+        latestTotalMassConsumedLeaderboard = new List<PlayerLeaderboardEntry>();
     }
 
-   void Login()
+   public void Login()
     {
         var request = new LoginWithCustomIDRequest
         {
@@ -30,6 +33,7 @@ public class PlayFabManager : MonoBehaviour
     }
 
     void OnSuccess(LoginResult result){
+        myID = result.PlayFabId;
         Debug.Log("Successful Login/Account Create");
     }
 
@@ -131,4 +135,11 @@ public class PlayFabManager : MonoBehaviour
             latestTotalMassConsumedLeaderboard.Add(item);
         }
     }
+    public void UpdateAllStatistics()
+    {
+        GetLeaderBoardTimeSurvived();
+        GetLeaderBoardTotalMassConsumed();
+        GetLeaderBoardMaximumMass();
+    }
+
 }

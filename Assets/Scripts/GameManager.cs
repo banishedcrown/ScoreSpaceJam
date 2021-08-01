@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    PlayFabManager playFab;
+    public PlayFabManager playFab { get; private set; } 
     
     Canvas Canvas;
     public Camera PlayerCamera;
@@ -23,22 +23,26 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public bool inGame = false;
 
-    void Awake()
+    void OnEnable()
     {
         GameObject[] objs = GameObject.FindGameObjectsWithTag("GameManager");
 
         if (objs.Length > 1) Destroy(this.gameObject);
         
         DontDestroyOnLoad(this.gameObject);
+        playFab = GetComponent<PlayFabManager>();
+        playFab.Login();
+        
     }
     // Start is called before the first frame update
     void Start()
     {
-        playFab = GetComponent<PlayFabManager>();
 
         Canvas = GameObject.Find("UI").GetComponent<Canvas>();
         PlayerCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player");
+
+        Invoke("UpdateLeaderboard", 1f);
     }
 
     private void Update()
@@ -64,6 +68,11 @@ public class GameManager : MonoBehaviour
     public static GameManager GetManager()
     {
         return GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+    }
+
+    public void UpdateLeaderboard()
+    {
+        playFab.UpdateAllStatistics();
     }
 
 
