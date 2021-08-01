@@ -43,15 +43,21 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        currentHealth -= maxHealth * percentDamagePerSecond * Time.deltaTime;
+        if (inGame)
+        {
+            currentHealth -= maxHealth * percentDamagePerSecond * Time.deltaTime;
 
-        if (currentHealth <= 0) GameOver();
+            if (currentHealth <= 0) GameOver();
+        }
     }
 
     private void OnGUI()
     {
-        TMPro.TMP_Text score = GameObject.Find("MassValue").GetComponent<TMPro.TMP_Text>();
-        score.text = currentMass.ToString("F3") + " U";
+        if (inGame)
+        {
+            TMPro.TMP_Text score = GameObject.Find("MassValue").GetComponent<TMPro.TMP_Text>();
+            score.text = currentMass.ToString("F3") + " U";
+        }
     }
 
 
@@ -75,6 +81,12 @@ public class GameManager : MonoBehaviour
 
         timeStarted = Time.time;
         inGame = true;
+    }
+
+    public void MainMenu()
+    {
+        inGame = false;
+        SceneManager.LoadScene("MainMenu");
     }
 
     
