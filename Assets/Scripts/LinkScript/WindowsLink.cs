@@ -43,4 +43,12 @@ public class WindowsLink : MonoBehaviour
 			Application.OpenURL("https://www.blendermarket.com/products/nebula-generator");
 		}
 	}
+
+	public void AtomicFont()
+	{
+		if (Application.platform != RuntimePlatform.WebGLPlayer)
+		{
+			Application.OpenURL("https://github.com/SorkinType/Atomic-Age");
+		}
+	}
 }

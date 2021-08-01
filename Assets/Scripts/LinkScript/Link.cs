@@ -45,6 +45,14 @@ public class Link : MonoBehaviour
 
 	}
 
+	public void AtomicFont()
+	{
+		#if !UNITY_EDITOR
+			openWindow("https://github.com/SorkinType/Atomic-Age");
+		#endif
+
+	}
+
 	[DllImport("__Internal")]
 	private static extern void openWindow(string url);
 
