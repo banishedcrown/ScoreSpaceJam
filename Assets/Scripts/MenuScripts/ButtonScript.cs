@@ -46,9 +46,7 @@ public class ButtonScript : MonoBehaviour
 
     public void NewGame()
     {
-        //Pulls up the warning prompt that you are overrriding a game
-        //GameManager.GetManager().OverwritePrompt = this.saveOverwritePrompt;
-        //GameManager.GetManager().NewGame();
+        GameManager.NewGame();
     }
 
     public void NewGameAfterAnimation()
