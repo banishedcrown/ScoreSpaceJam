@@ -69,8 +69,8 @@ public class SpawnManager : MonoBehaviour
             //float dist = Random.Range(5.0f, maxDistanceFromPlayer);
             float dist = Random.Range(0.0f, maxDistanceFromOrigin);
 
-            //GameObject obj = GameObject.Instantiate(atomPrefab, (Vector2) player.transform.position + ( pos * dist), Quaternion.identity);
-            GameObject obj = GameObject.Instantiate(atomPrefab, ( pos * dist), Quaternion.identity);
+            GameObject obj = GameObject.Instantiate(atomPrefab, (Vector2) player.transform.position + ( pos * dist * playerController.atomController.currentMass), Quaternion.identity);
+            //GameObject obj = GameObject.Instantiate(atomPrefab, ( pos * dist), Quaternion.identity);
             AtomController ac = obj.GetComponentInChildren<AtomController>();
 
             ac.electronCount = 1;

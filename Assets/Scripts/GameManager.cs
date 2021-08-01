@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (inGame)
+        if (inGame && maxHealth > 2)
         {
             currentHealth -= maxHealth * percentDamagePerSecond * Time.deltaTime;
 

@@ -35,7 +35,7 @@ public class AtomController : MonoBehaviour
     List<Transform> neutrons;
 
     // Start is called before the first frame update
-    void Awake()
+    void OnEnable()
     {
         electrons = new List<Transform>();
         protons = new List<Transform>();
@@ -78,6 +78,7 @@ public class AtomController : MonoBehaviour
         {
             currentMass += t.gameObject.GetComponent<Rigidbody2D>().mass;
         }
+        rb.mass = currentMass;
     }
 
     void GenerateProtons()

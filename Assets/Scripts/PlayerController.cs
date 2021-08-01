@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float mass = Mathf.Log(atomController.currentMass);
+        float mass = Mathf.Log10(atomController.currentMass);
         if (mass < 0) mass = 0.001f;
         if (isPlayer) {
 
