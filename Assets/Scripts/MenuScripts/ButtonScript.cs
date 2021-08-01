@@ -46,7 +46,7 @@ public class ButtonScript : MonoBehaviour
 
     public void NewGame()
     {
-        GameManager.NewGame();
+        GameManager.GetManager().NewGame();
     }
 
     public void NewGameAfterAnimation()

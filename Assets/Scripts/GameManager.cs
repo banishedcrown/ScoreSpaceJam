@@ -55,6 +55,11 @@ public class GameManager : MonoBehaviour
     }
 
 
+    public static GameManager GetManager()
+    {
+        return GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+    }
+
 
     public void NewGame()
     {
