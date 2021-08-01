@@ -90,6 +90,8 @@ public class GameManager : MonoBehaviour
     public void AddMass(float mass)
     {
         currentMass += mass;
+        currentHealth += mass;
+        maxHealth += mass;
         if (currentMass > maximumMass) maximumMass = currentMass;
     }
 }
