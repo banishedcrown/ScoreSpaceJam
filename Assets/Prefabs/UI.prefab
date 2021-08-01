@@ -2830,6 +2830,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Resume
       objectReference: {fileID: 0}
+    - target: {fileID: 9144412826506413263, guid: 4dd54f4f318944e4497f613525ef3330, type: 3}
+      propertyPath: m_UpdateMode
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4dd54f4f318944e4497f613525ef3330, type: 3}
 --- !u!224 &1835794969717015870 stripped
@@ -2863,6 +2867,10 @@ PrefabInstance:
     - target: {fileID: 6854452894784762151, guid: 4dd54f4f318944e4497f613525ef3330, type: 3}
       propertyPath: m_Name
       value: Restart
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144412826506413263, guid: 4dd54f4f318944e4497f613525ef3330, type: 3}
+      propertyPath: m_UpdateMode
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4dd54f4f318944e4497f613525ef3330, type: 3}
@@ -3002,6 +3010,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 9144412826506413263, guid: 4dd54f4f318944e4497f613525ef3330, type: 3}
+      propertyPath: m_UpdateMode
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4dd54f4f318944e4497f613525ef3330, type: 3}
 --- !u!224 &4007437399789443704 stripped
@@ -3067,6 +3079,10 @@ PrefabInstance:
     - target: {fileID: 539008465187622980, guid: 4dd54f4f318944e4497f613525ef3330, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 539008465187622980, guid: 4dd54f4f318944e4497f613525ef3330, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 539008465187622980, guid: 4dd54f4f318944e4497f613525ef3330, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -3253,6 +3269,10 @@ PrefabInstance:
     - target: {fileID: 6854452894784762151, guid: 4dd54f4f318944e4497f613525ef3330, type: 3}
       propertyPath: m_Name
       value: MainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144412826506413263, guid: 4dd54f4f318944e4497f613525ef3330, type: 3}
+      propertyPath: m_UpdateMode
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4dd54f4f318944e4497f613525ef3330, type: 3}
