@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     public bool inGame = false;
     public bool isDead = false;
 
+    public bool zoomIsToggle { get; private set; }
+
     void OnEnable()
     {
         GameObject[] objs = GameObject.FindGameObjectsWithTag("GameManager");
@@ -105,6 +107,11 @@ public class GameManager : MonoBehaviour
     {
         inGame = false;
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void AllowZoomToggle(bool on)
+    {
+        this.zoomIsToggle = on;
     }
 
     

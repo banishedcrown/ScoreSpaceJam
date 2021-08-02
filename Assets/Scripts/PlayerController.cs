@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
     public float camMaxSize = 250f;
     public float zoomMultiplier = 2f;
 
+    private bool useZoom = false;
+
     public TMPro.TMP_Text scoreLabel;
 
     // Start is called before the first frame update
@@ -86,8 +88,27 @@ public class PlayerController : MonoBehaviour
 
             float size = Mathf.Lerp(5f, camMaxSize, atomController.currentMass / camMaxMass);
             cam.orthographicSize = (size * camGrowthScale);
-            cam.orthographicSize *= Input.GetMouseButton(1) ? zoomMultiplier : 1f;
-           
+
+            //cam.orthographicSize *= Input.GetMouseButton(1) ? zoomMultiplier : 1f;
+            if (gm.zoomIsToggle)
+            {
+                if (Input.GetMouseButtonDown(1))
+                {
+                    useZoom = !useZoom;
+                }
+                float zoomValue = 1f;
+                if (useZoom)
+                {
+                    zoomValue = zoomMultiplier;
+                }
+
+                cam.orthographicSize *= zoomValue;
+            }
+            else
+            {
+                cam.orthographicSize *= Input.GetMouseButton(1) ? zoomMultiplier : 1f;
+            }
+
             if (gm.currentMass != atomController.currentMass)
             {
                 gm.AddMass((float)(atomController.currentMass - gm.currentMass));
