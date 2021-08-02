@@ -9,6 +9,7 @@ public class LeaderboardManager : MonoBehaviour
 {
     public GameObject RowPrefab;
     public GameObject ContentDestination;
+    public TMP_Text IdLabelText;
 
     PlayFabManager pm;
     
@@ -24,6 +25,7 @@ public class LeaderboardManager : MonoBehaviour
         pm = GameManager.GetManager().playFab;
 
         RefreshLeaderBoard();
+        IdLabelText.text = "Your ID: " + pm.myID;
     }
 
     
