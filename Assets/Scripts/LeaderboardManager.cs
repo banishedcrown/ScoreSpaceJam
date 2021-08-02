@@ -53,11 +53,16 @@ public class LeaderboardManager : MonoBehaviour
             content[1].text = item.PlayFabId.ToString();
             content[2].text = (((float)item.StatValue) / 100f).ToString();
 
+            foreach(TMP_Text c in content)
+            {
+                c.color = Color.black;
+            }
+
             if(content[1].text.Equals(pm.myID))
             {
                 foreach(TMP_Text c in content)
                 {
-                    c.color = Color.black;
+                    c.color = Color.green;
                     c.fontStyle = FontStyles.Underline | FontStyles.Bold;
                 }
             }
