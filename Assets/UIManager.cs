@@ -46,6 +46,6 @@ public class UIManager : MonoBehaviour
 
     public void RestartGame()
     {
-        gm.NewGame();
+        gm.Restart();
     }
 }

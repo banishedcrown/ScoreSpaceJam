@@ -20,7 +20,9 @@ public class PlayerController : MonoBehaviour
     public float maxSpeed = 5f;
     public float maxForceMultiplier = 0.25f;
 
-    public float camGrowthRate = 1.2f;
+    public float camGrowthScale = 1.2f;
+    public float camMaxMass = 250f;
+    public float camMaxSize = 250f;
     public float zoomMultiplier = 2f;
 
     // Start is called before the first frame update
@@ -64,12 +66,13 @@ public class PlayerController : MonoBehaviour
                 float angle = Vector2.Angle(rb.velocity, pos);
                 
                 rb.mass = atomController.currentMass;
-                rb.velocity = rb.velocity.normalized * maxSpeed * mass;
-                rb.AddForce(pos * maxForceMultiplier * transform.localScale.x, ForceMode2D.Impulse);
+                rb.velocity = rb.velocity.normalized * maxSpeed * atomController.currentMass * transform.localScale;
+                rb.AddForce(pos * maxForceMultiplier, ForceMode2D.Impulse);
                 rb.AddTorque(angle);
             }
 
-            cam.orthographicSize = (mass * camGrowthRate);
+            float size = Mathf.Lerp(5f, camMaxSize, atomController.currentMass / camMaxMass);
+            cam.orthographicSize = (size * camGrowthScale);
             cam.orthographicSize *= Input.GetMouseButton(1) ? zoomMultiplier : 1f;
            
             if (gm.currentMass != atomController.currentMass)
@@ -86,7 +89,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             float distanceFromPlayer = Vector2.Distance(gm.player.gameObject.transform.position, this.gameObject.transform.position);
-            float distanceLimit = 1000f * Mathf.Log10((float)gm.currentMass);
+            float distanceLimit = distanceFromPlayer * atomController.currentMass;
             if (distanceFromPlayer > distanceLimit)
             {
                 Die();
@@ -126,7 +129,6 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            spawnManager.RemoveAtom(this.gameObject);
             Die();
         }
     }
@@ -142,6 +144,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            spawnManager.RemoveAtom(this.gameObject);
             Destroy(this.gameObject, delay);
         }
     }

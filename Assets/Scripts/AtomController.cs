@@ -234,24 +234,26 @@ public class AtomController : MonoBehaviour
         AtomController targetController = collision.gameObject.GetComponentInChildren<AtomController>();
         Rigidbody2D enemyrb = collision.gameObject.GetComponent<Rigidbody2D>();
 
-        if (enemyrb.mass > rb.mass)
-        {
-            if(collision.gameObject.tag == "Player")
-                TransferMyParticlesTo(collision.gameObject, targetController);
-        }
-        else
+        if (enemyrb.mass <= rb.mass)
         {
             TransferTheirParticlesToMe(collision.gameObject, targetController);
         }
+
         UpdateMass();
         targetController.UpdateMass();
     }
 
     private void TransferMyParticlesTo(GameObject target, AtomController targetController)
     {
-        foreach (Transform t in targetController.myTransform)
+        List<Transform> temp = new List<Transform>();
+        foreach (Transform t in myTransform)
         {
-            t.parent = target.transform;
+            temp.Add(t);
+        }
+
+        foreach(Transform t in temp)
+        {
+            t.parent = targetController.myTransform;
             t.localScale = Vector3.one;
         }
 
@@ -267,9 +269,15 @@ public class AtomController : MonoBehaviour
 
     private void TransferTheirParticlesToMe(GameObject target, AtomController targetController)
     {
+        List<Transform> temp = new List<Transform>();
         foreach (Transform t in targetController.myTransform)
         {
-            t.parent = transform;
+            temp.Add(t);
+        }
+
+        foreach (Transform t in temp)
+        {
+            t.parent = myTransform;
             t.localScale = Vector3.one * 0.25f;
         }
 

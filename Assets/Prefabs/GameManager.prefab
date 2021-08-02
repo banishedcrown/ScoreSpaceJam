@@ -57,5 +57,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerCamera: {fileID: 0}
+  percentDamagePerSecond: 0.1
   player: {fileID: 0}
   inGame: 0
+  isDead: 0

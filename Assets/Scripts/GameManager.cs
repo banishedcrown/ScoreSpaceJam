@@ -78,21 +78,25 @@ public class GameManager : MonoBehaviour
         playFab.UpdateAllStatistics();
     }
 
-
-    public void NewGame()
+    public void Restart()
     {
+        NewGame();
+    }
+    public void NewGame()
+    { 
         SceneManager.LoadScene("Arena");
         PauseGame(false);
         Start();
         PlayerCamera.orthographicSize = 5f;
-        currentMass = 1f;
-        maximumMass = 1f;
+        currentMass = 0f;
+        maximumMass = 0f;
 
-        currentHealth = 1f;
-        maxHealth = 1f;
+        currentHealth = 0f;
+        maxHealth = 0f;
 
         timeStarted = Time.time;
         inGame = true;
+        isDead = false;
     }
 
     public void MainMenu()
