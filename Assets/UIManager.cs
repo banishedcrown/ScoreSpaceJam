@@ -44,6 +44,11 @@ public class UIManager : MonoBehaviour
         inGameUI.SetActive(!value);
     }
 
+
+    public void ToggleZoomFunction()
+    {
+        gm.AllowZoomToggle(!gm.zoomIsToggle);
+    }
     public void RestartGame()
     {
         gm.Restart();
