@@ -233,14 +233,21 @@ public class AtomController : MonoBehaviour
     {
         AtomController targetController = collision.gameObject.GetComponentInChildren<AtomController>();
         Rigidbody2D enemyrb = collision.gameObject.GetComponent<Rigidbody2D>();
-
+        bool isOnPlayer = gameObject.transform.parent.CompareTag("Player");
         if (enemyrb.mass < rb.mass)
         {
             TransferTheirParticlesToMe(collision.gameObject, targetController);
-        }else if (enemyrb.mass == rb.mass && gameObject.transform.parent.CompareTag("Player"))
+            if (isOnPlayer)
+            {
+                gameObject.SendMessageUpwards("IAteSomething", rb.mass / enemyrb.mass);
+            }
+        }
+        else if (enemyrb.mass == rb.mass && isOnPlayer)
         {
             TransferTheirParticlesToMe(collision.gameObject, targetController);
-        }else if (gameObject.CompareTag(collision.gameObject.tag))
+            gameObject.SendMessageUpwards("IAteSomething", rb.mass / enemyrb.mass);
+        }
+        else if (gameObject.CompareTag(collision.gameObject.tag))
         {
             this.currentMass = 0f;
         }

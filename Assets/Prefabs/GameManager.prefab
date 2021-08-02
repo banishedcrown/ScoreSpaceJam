@@ -40,7 +40,7 @@ AudioSource:
   m_GameObject: {fileID: 1107037282205386964}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -3681646743504503638, guid: c78dddc4573272f40a6a92beaf24539d, type: 2}
   m_audioClip: {fileID: 8300000, guid: f6f791f7c4fc22d41ad229f1c3348362, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerCamera: {fileID: 0}
-  AlarmAudio: {fileID: 0}
+  alarmSource: {fileID: 0}
   healthAlarmTriggerPercentage: 0.3
   percentDamagePerSecond: 0.1
   player: {fileID: 0}

@@ -34,6 +34,9 @@ public class PlayerController : MonoBehaviour
 
     public TMPro.TMP_Text scoreLabel;
 
+    private AudioSource audioSource; 
+
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -50,6 +53,8 @@ public class PlayerController : MonoBehaviour
             gm.player = this.gameObject;
             gm.playerController = this;
         }
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Start()
@@ -164,6 +169,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void IAteSomething(float differencePercent)
+    {
+        if(differencePercent < 0.4f)
+        {
+            audioSource.PlayOneShot(smallMergeAudio);
+        }else if(differencePercent < 0.8f)
+        {
+            audioSource.PlayOneShot(mediumMergeAudio);
+        }
+        else
+        {
+            audioSource.PlayOneShot(bigMergeAudio);
+        }
+    }
 
     public void AtomIsEmpty()
     {
@@ -179,12 +198,14 @@ public class PlayerController : MonoBehaviour
 
     public void Die(float delay = 0f)
     {
+        
         if (isPlayer)
         {
             gm.GameOver();
             GameObject g = GameObject.Instantiate(camObj, spawnManager.gameObject.transform);
             g.transform.position = camObj.transform.position;
             this.gameObject.SetActive(false);
+            audioSource.PlayOneShot(DeathAudio);
         }
         else
         {

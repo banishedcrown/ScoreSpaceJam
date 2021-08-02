@@ -601,6 +601,10 @@ MonoBehaviour:
   camMaxMass: 250
   camMaxSize: 250
   zoomMultiplier: 3
+  DeathAudio: {fileID: 8300000, guid: 82a99efde56c3d045a23be854cbcc1a6, type: 3}
+  smallMergeAudio: {fileID: 8300000, guid: 384d22bf700bd7440a5c3af4e90eb683, type: 3}
+  mediumMergeAudio: {fileID: 8300000, guid: ad17031513194934d978871651f5b919, type: 3}
+  bigMergeAudio: {fileID: 8300000, guid: 95fe3cc73d54fc349ba07127a4ff05c0, type: 3}
   scoreLabel: {fileID: 6008737576246852871}
 --- !u!50 &2109725990911775499
 Rigidbody2D:

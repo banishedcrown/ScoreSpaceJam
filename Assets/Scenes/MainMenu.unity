@@ -7823,13 +7823,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5457608720486129480, guid: 1cc4f18a6d2a4394d8f04cd9efabbc7a, type: 3}
+    - target: {fileID: 9120133428125540233, guid: 1cc4f18a6d2a4394d8f04cd9efabbc7a, type: 3}
       propertyPath: Loop
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5457608720486129480, guid: 1cc4f18a6d2a4394d8f04cd9efabbc7a, type: 3}
+    - target: {fileID: 9120133428125540233, guid: 1cc4f18a6d2a4394d8f04cd9efabbc7a, type: 3}
       propertyPath: m_PlayOnAwake
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9201964284927053188, guid: 1cc4f18a6d2a4394d8f04cd9efabbc7a, type: 3}
       propertyPath: m_Name
