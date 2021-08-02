@@ -43,8 +43,6 @@ public class GameManager : MonoBehaviour
         playFab = GetComponent<PlayFabManager>();
         playFab.Login();
 
-        alarmSource = GetComponent<AudioSource>();
-        
     }
     // Start is called before the first frame update
     void Start()

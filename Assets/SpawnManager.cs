@@ -19,6 +19,7 @@ public class SpawnManager : MonoBehaviour
 
     GameObject player;
     PlayerController playerController;
+    GameManager gm;
 
     // Start is called before the first frame update
     void Start()
@@ -26,21 +27,24 @@ public class SpawnManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
         atoms = new List<GameObject>();
-        
+        gm = GameManager.GetManager();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(atoms.Count == 0)
+        if (gm.inGame && !gm.isDead)
         {
-            //GenerateStarterAtoms();
-            SpawnNewAtom();
-        }
+            if (atoms.Count == 0)
+            {
+                //GenerateStarterAtoms();
+                SpawnNewAtom();
+            }
 
-        else if(atoms.Count < maxAtoms)
-        {
-            SpawnNewAtom();
+            else if (atoms.Count < maxAtoms)
+            {
+                SpawnNewAtom();
+            }
         }
     }
 

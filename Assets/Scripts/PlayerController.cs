@@ -204,13 +204,19 @@ public class PlayerController : MonoBehaviour
             gm.GameOver();
             GameObject g = GameObject.Instantiate(camObj, spawnManager.gameObject.transform);
             g.transform.position = camObj.transform.position;
-            this.gameObject.SetActive(false);
-            audioSource.PlayOneShot(DeathAudio);
+            //audioSource.PlayOneShot(DeathAudio);
+            gm.alarmSource.PlayOneShot(DeathAudio);
+            DeactivateMyself();
         }
         else
         {
             spawnManager.RemoveAtom(this.gameObject);
             Destroy(this.gameObject, delay);
         }
+    }
+
+    void DeactivateMyself()
+    {
+        this.gameObject.SetActive(false);
     }
 }
