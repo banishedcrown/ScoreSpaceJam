@@ -55,9 +55,11 @@ public class LeaderboardManager : MonoBehaviour
 
             if(content[1].text.Equals(pm.myID))
             {
-                content[0].color = Color.red;
-                content[1].color = Color.red;
-                content[2].color = Color.red;
+                foreach(TMP_Text c in content)
+                {
+                    c.color = Color.black;
+                    c.fontStyle = FontStyles.Underline | FontStyles.Bold;
+                }
             }
 
         }
