@@ -9,6 +9,7 @@ public class LeaderboardManager : MonoBehaviour
 {
     public GameObject RowPrefab;
     public GameObject ContentDestination;
+    public TMP_Text IdLabelText;
 
     PlayFabManager pm;
     
@@ -24,6 +25,7 @@ public class LeaderboardManager : MonoBehaviour
         pm = GameManager.GetManager().playFab;
 
         RefreshLeaderBoard();
+        IdLabelText.text = "Your ID: " + pm.myID;
     }
 
     
@@ -53,11 +55,18 @@ public class LeaderboardManager : MonoBehaviour
             content[1].text = item.PlayFabId.ToString();
             content[2].text = (((float)item.StatValue) / 100f).ToString();
 
+            foreach(TMP_Text c in content)
+            {
+                c.color = Color.black;
+            }
+
             if(content[1].text.Equals(pm.myID))
             {
-                content[0].color = Color.red;
-                content[1].color = Color.red;
-                content[2].color = Color.red;
+                foreach(TMP_Text c in content)
+                {
+                    c.color = Color.green;
+                    c.fontStyle = FontStyles.Underline | FontStyles.Bold;
+                }
             }
 
         }
