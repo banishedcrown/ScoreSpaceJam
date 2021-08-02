@@ -234,7 +234,10 @@ public class AtomController : MonoBehaviour
         AtomController targetController = collision.gameObject.GetComponentInChildren<AtomController>();
         Rigidbody2D enemyrb = collision.gameObject.GetComponent<Rigidbody2D>();
 
-        if (enemyrb.mass <= rb.mass)
+        if (enemyrb.mass < rb.mass)
+        {
+            TransferTheirParticlesToMe(collision.gameObject, targetController);
+        }else if (enemyrb.mass == rb.mass && gameObject.CompareTag("Player"))
         {
             TransferTheirParticlesToMe(collision.gameObject, targetController);
         }

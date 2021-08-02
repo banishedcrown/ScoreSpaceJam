@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public float currentTimeSurvided { get; private set; }
 
     public GameObject player;
+    public PlayerController playerController;
     public bool inGame = false;
     public bool isDead = false;
 
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
         Canvas = GameObject.Find("UI").GetComponent<Canvas>();
         PlayerCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player");
+        if(player != null) playerController = player.GetComponent<PlayerController>();
 
         Invoke("UpdateLeaderboard", 1f);
     }

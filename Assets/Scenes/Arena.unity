@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2109725990911775500, guid: a93e64a1fa8142548ac0eddc4ea76b70, type: 3}
+      propertyPath: camGrowthScale
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 2109725990911775502, guid: a93e64a1fa8142548ac0eddc4ea76b70, type: 3}
       propertyPath: m_RootOrder
       value: 4

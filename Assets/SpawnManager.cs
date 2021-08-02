@@ -8,7 +8,7 @@ public class SpawnManager : MonoBehaviour
     public int maxAtoms = 100;
     public float maxDistanceFromOrigin = 50f;
     public float maxDistanceFromPlayer = 20f;
-    public int maxSizeAbovePlayer = 4;
+    public int maxSizeFromPlayer = 4;
 
     List<GameObject> atoms;
 
@@ -81,8 +81,8 @@ public class SpawnManager : MonoBehaviour
             //GameObject obj = GameObject.Instantiate(atomPrefab, ( pos * dist), Quaternion.identity);
             AtomController ac = obj.GetComponentInChildren<AtomController>();
 
-            ac.electronCount = 1;
-            ac.protonCount = Random.Range(1, playerController.atomController.protonCount + maxSizeAbovePlayer);
+            ac.electronCount = Random.Range(playerController.atomController.electronCount - maxSizeFromPlayer, playerController.atomController.electronCount + maxSizeFromPlayer); ;
+            ac.protonCount = Random.Range(playerController.atomController.protonCount - maxSizeFromPlayer, playerController.atomController.protonCount + maxSizeFromPlayer);
             ac.neutronCount = Random.Range(0, ac.protonCount);
 
             ac.enabled = true;

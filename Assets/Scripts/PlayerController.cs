@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
     public float camMaxSize = 250f;
     public float zoomMultiplier = 2f;
 
+    public TMPro.TMP_Text scoreLabel;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -36,6 +38,11 @@ public class PlayerController : MonoBehaviour
 
         spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        if (gameObject.CompareTag("Player"))
+        {
+            gm.player = this.gameObject;
+            gm.playerController = this;
+        }
     }
 
     void Start()
@@ -47,9 +54,15 @@ public class PlayerController : MonoBehaviour
             camObj = GameObject.FindGameObjectWithTag("MainCamera");
             cam = camObj.GetComponent<Camera>();
             gm.AddMass(atomController.currentMass);
-            gm.player = this.gameObject;
+            
         }
         transform.localScale = new Vector3(0.02f * atomController.currentMass, 0.02f * atomController.currentMass, 1);
+        
+    }
+
+    private void OnGUI()
+    {
+        scoreLabel.text = atomController.currentMass.ToString("F3") + " U";
     }
 
     // Update is called once per frame
@@ -66,8 +79,8 @@ public class PlayerController : MonoBehaviour
                 float angle = Vector2.Angle(rb.velocity, pos);
                 
                 rb.mass = atomController.currentMass;
-                rb.velocity = rb.velocity.normalized * maxSpeed * atomController.currentMass * transform.localScale;
-                rb.AddForce(pos * maxForceMultiplier, ForceMode2D.Impulse);
+                //rb.velocity = rb.velocity.normalized * maxSpeed * atomController.currentMass/transform.localScale;
+                rb.AddForce(pos * maxForceMultiplier * transform.localScale, ForceMode2D.Impulse);
                 rb.AddTorque(angle);
             }
 
@@ -96,6 +109,11 @@ public class PlayerController : MonoBehaviour
             }
 
             rb.mass = atomController.currentMass;
+
+            if (atomController.currentMass < gm.playerController.atomController.currentMass * 0.2f)
+            {
+                Die();
+            }
             //rb.velocity = rb.velocity.normalized * maxSpeed * mass;
         }
         
@@ -111,7 +129,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (gm.currentTimeSurvided < 3f) return; 
+        if (gm.currentTimeSurvided < 1f) return; 
 
         if ((collision.gameObject.CompareTag("Atom") || collision.gameObject.CompareTag("Player")) && atom != null)
         {
