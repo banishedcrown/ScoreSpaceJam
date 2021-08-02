@@ -3150,6 +3150,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeaderboardPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 1215028644471453232, guid: 87469adc24ddb6e42a4f9a293228c1d7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1215028645003488431, guid: 87469adc24ddb6e42a4f9a293228c1d7, type: 3}
       propertyPath: m_SizeDelta.y
       value: 41.6329
