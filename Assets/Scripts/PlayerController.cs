@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviour
     {
         if (gm.currentTimeSurvided < 3f) return; 
 
-        if (collision.gameObject.CompareTag("Atom") && atom != null)
+        if ((collision.gameObject.CompareTag("Atom") || collision.gameObject.CompareTag("Player")) && atom != null)
         {
             
             atom.SendMessage("OnHitAnotherAtom", collision);
