@@ -85,6 +85,10 @@ public class SpawnManager : MonoBehaviour
             ac.protonCount = Random.Range(playerController.atomController.protonCount - maxSizeFromPlayer, playerController.atomController.protonCount + maxSizeFromPlayer);
             ac.neutronCount = Random.Range(0, ac.protonCount);
 
+            /*ac.electronCount = 1;
+            ac.protonCount = 1;
+            ac.neutronCount = 0;*/
+
             ac.enabled = true;
 
             Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();

@@ -237,9 +237,12 @@ public class AtomController : MonoBehaviour
         if (enemyrb.mass < rb.mass)
         {
             TransferTheirParticlesToMe(collision.gameObject, targetController);
-        }else if (enemyrb.mass == rb.mass && gameObject.CompareTag("Player"))
+        }else if (enemyrb.mass == rb.mass && gameObject.transform.parent.CompareTag("Player"))
         {
             TransferTheirParticlesToMe(collision.gameObject, targetController);
+        }else if (gameObject.CompareTag(collision.gameObject.tag))
+        {
+            this.currentMass = 0f;
         }
 
         UpdateMass();
