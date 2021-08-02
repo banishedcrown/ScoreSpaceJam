@@ -27,6 +27,11 @@ public class PlayerController : MonoBehaviour
 
     private bool useZoom = false;
 
+    public AudioClip DeathAudio;
+    public AudioClip smallMergeAudio;
+    public AudioClip mediumMergeAudio;
+    public AudioClip bigMergeAudio;
+
     public TMPro.TMP_Text scoreLabel;
 
     // Start is called before the first frame update

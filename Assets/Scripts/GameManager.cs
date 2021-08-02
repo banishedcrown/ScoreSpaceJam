@@ -10,13 +10,17 @@ public class GameManager : MonoBehaviour
     Canvas Canvas;
     public Camera PlayerCamera;
 
+    public AudioSource alarmSource;
+    public float healthAlarmTriggerPercentage = 0.3f;
+
     public double currentMass { get; private set; }
     double maximumMass;
 
 
     public double currentHealth { get; private set; } = 0f;
     public double maxHealth { get; private set; } = 100f;
-    public double percentDamagePerSecond = 0.1f;
+    public double percentDamagePerSecond = 0.05f;
+
 
     public float timeStarted { get; private set; }
     public float currentTimeSurvided { get; private set; }
@@ -28,6 +32,7 @@ public class GameManager : MonoBehaviour
 
     public bool zoomIsToggle { get; private set; }
 
+
     void OnEnable()
     {
         GameObject[] objs = GameObject.FindGameObjectsWithTag("GameManager");
@@ -37,6 +42,8 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
         playFab = GetComponent<PlayFabManager>();
         playFab.Login();
+
+        alarmSource = GetComponent<AudioSource>();
         
     }
     // Start is called before the first frame update
@@ -61,6 +68,19 @@ public class GameManager : MonoBehaviour
             {
                 isDead = true;
                 GameOver();
+            }
+            else if( currentHealth < maxHealth * healthAlarmTriggerPercentage)
+            {
+                if (!alarmSource.isPlaying)
+                {
+                    alarmSource.loop = true;
+                    alarmSource.Play();
+                }
+
+            }
+            else
+            {
+                alarmSource.Stop();
             }
 
             
@@ -126,6 +146,7 @@ public class GameManager : MonoBehaviour
         inGame = false;
         isDead = true;
         playFab.SendAllScores(maximumMass, Time.time - timeStarted);
+        if (alarmSource.isPlaying) alarmSource.Stop();
 
         GameObject.Find("UI").SendMessage("SetGameOverMenuActive", true);
     }
