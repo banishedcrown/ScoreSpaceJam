@@ -34,7 +34,8 @@ public class SpawnManager : MonoBehaviour
     {
         if(atoms.Count == 0)
         {
-            GenerateStarterAtoms();
+            //GenerateStarterAtoms();
+            SpawnNewAtom();
         }
 
         else if(atoms.Count < maxAtoms)
@@ -48,9 +49,9 @@ public class SpawnManager : MonoBehaviour
         for (int c = 0; c < maxAtoms; c++)
         {
             Vector2 pos = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-            float dist = Random.Range(0.5f, maxDistanceFromPlayer);
-            GameObject obj = GameObject.Instantiate(atomPrefab, (Vector2)((Vector2)player.transform.position + (pos * dist * (Vector2)playerController.transform.localScale)), Quaternion.identity);
-            //GameObject obj = GameObject.Instantiate(atomPrefab, pos * dist, Quaternion.identity);
+            float dist = Random.Range(1f, maxDistanceFromOrigin);
+            //GameObject obj = GameObject.Instantiate(atomPrefab, (Vector2)((Vector2)player.transform.position + (pos * dist * (Vector2)playerController.transform.localScale)), Quaternion.identity);
+            GameObject obj = GameObject.Instantiate(atomPrefab, pos * dist, Quaternion.identity);
             AtomController ac = obj.GetComponentInChildren<AtomController>();
 
             ac.electronCount = 1;

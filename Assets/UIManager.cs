@@ -26,6 +26,9 @@ public class UIManager : MonoBehaviour
     {
         if (gm.inGame)
         {
+            gameOverMenu.SetActive(false);
+            inGameUI.SetActive(true);
+
             TMPro.TMP_Text score = GameObject.Find("MassValue").GetComponent<TMPro.TMP_Text>();
             score.text = gm.currentMass.ToString("F3") + " U";
 

@@ -830,7 +830,7 @@ MonoBehaviour:
   atomPrefab: {fileID: 4644621342216872777, guid: 80e42197a3b41ad40b1ec7a10d56cf37, type: 3}
   maxAtoms: 100
   maxDistanceFromOrigin: 100
-  maxDistanceFromPlayer: 2
+  maxDistanceFromPlayer: 50
   maxSizeAbovePlayer: 4
 --- !u!4 &2102458439
 Transform:
